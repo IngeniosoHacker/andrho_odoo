@@ -1,0 +1,16 @@
+// AndRho's palette (andrho-tracker-dashboard/public/dashboard/styles.css):
+// deep ink, teal for actions, mint as the accent. Loaded before web's own
+// variables, which are all !default.
+$o-andrho-ink: #0b1020;
+$o-andrho-teal: #0e9f84;
+$o-andrho-mint: #00e6b8;
+
+$o-community-color: $o-andrho-ink;
+$o-brand-odoo: $o-andrho-ink;
+$o-brand-primary: $o-andrho-teal;
+$o-action: $o-andrho-teal;
+
+$o-navbar-background: $o-andrho-ink;
+$o-navbar-border-bottom: 2px solid $o-andrho-mint;
+
+$o-font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;

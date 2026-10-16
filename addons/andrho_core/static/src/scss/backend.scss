@@ -1,0 +1,40 @@
+// AndRho's look inside Odoo: the dashboard's fonts and panels, no chatter
+// or Odoo branding (the platform is where conversation and notifications
+// happen).
+
+.o_web_client {
+    font-family: $o-font-family-sans-serif;
+}
+
+.o_main_navbar {
+    .o_menu_brand {
+        font-family: "Space Grotesk", "Inter", sans-serif;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+    }
+    // The apps menu opens from AndRho's mark instead of Odoo's grid.
+    .o_navbar_apps_menu button {
+        background: url("/andrho_core/static/src/img/andrho-mark.png") center / 24px auto no-repeat;
+        min-width: 46px;
+        .oi { visibility: hidden; }
+    }
+}
+
+.o_control_panel .o_breadcrumb .active,
+.o_form_view .oe_title h1 {
+    font-family: "Space Grotesk", "Inter", sans-serif;
+    letter-spacing: -0.02em;
+}
+
+.btn-primary {
+    color: #fff;
+}
+
+// Chatter and activities: hidden until AndRho's own UI replaces the forms.
+.o-mail-Form-chatter,
+.o-mail-ChatterContainer {
+    display: none !important;
+}
+.o_form_sheet_bg:has(+ .o-mail-Form-chatter) {
+    max-width: none;
+}

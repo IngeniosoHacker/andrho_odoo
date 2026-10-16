@@ -1,5 +1,30 @@
 # andrho_odoo
 
+La imagen Docker del ERP de AndRho: Odoo 19 Community con el módulo
+`andrho_core`. Cada cliente que se registra en AndRho recibe un contenedor con
+esta imagen (`VPS/odoo/provision-client.sh`), su propia base de datos con
+Inventario (`stock`) y los módulos que la API decidió en el registro.
+
+```sh
+docker build -t andrho-odoo:19.0 .
+```
+
+### Qué hace `andrho_core` (`addons/andrho_core`)
+
+| Pieza | Archivo |
+|---|---|
+| **Entrada sin login** desde el botón ERP del panel: `/andrho/sso?t=<token>` valida un token firmado por andrho-api (HMAC-SHA256 con `andrho.sso_secret`, 60 s, un solo uso), crea al usuario de AndRho si es su primera vez (dueño y admins con los permisos del administrador; el resto, usuario de inventario) y abre la sesión. | `models/sso.py`, `models/res_users.py`, `controllers/main.py` |
+| `/web/login` y el cierre de sesión llevan de vuelta al panel de AndRho (`andrho.dashboard_url`). `?local=1` deja el formulario de Odoo para soporte. | `controllers/main.py` |
+| **Marca AndRho**: barra tinta con la línea menta, acciones en teal, Inter y Space Grotesk, el logo de AndRho en el menú de apps, título "AndRho ERP", sin "Powered by Odoo" ni enlaces a odoo.com, y "Volver a AndRho" en el menú del usuario. | `static/src/scss/*`, `static/src/js/webclient_cleanup.js`, `views/webclient_templates.xml` |
+| **`mail` neutralizado** (sección 3): ningún correo sale (`ir.mail_server.send_email`), crons de correo, *publisher warranty* y digest apagados, Discuss oculto, chatter y actividades ocultos. El tracking se conserva. | `hooks.py`, `models/ir_mail_server.py` |
+
+El script de la VPS crea la base de datos, el administrador (el correo y nombre
+del dueño en AndRho, así que no hay paso de "crear la cuenta" en el navegador),
+la empresa, `andrho.sso_secret` y `andrho.dashboard_url`, y desinstala
+`mail_bot`. La propuesta original sigue abajo; `tu_saas_core` es `andrho_core`.
+
+---
+
 ## Propuesta técnica: MVP de Odoo Community (solo Inventario) como servicio gestionado
 
 **Versión objetivo:** Odoo 19.0 Community (LGPLv3)

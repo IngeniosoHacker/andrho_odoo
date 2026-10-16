@@ -1,0 +1,5 @@
+// Odoo's own login page, only reached with ?local=1 (AndRho support).
+.o_brand_promotion,
+.o_database_list a[href*="odoo.com"] {
+    display: none !important;
+}

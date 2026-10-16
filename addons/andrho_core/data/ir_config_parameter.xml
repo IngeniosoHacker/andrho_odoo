@@ -1,0 +1,7 @@
+<odoo>
+    <!-- No catchall/bounce addresses of Odoo's own: mail never leaves. -->
+    <record id="param_catchall_domain" model="ir.config_parameter">
+        <field name="key">mail.catchall.domain</field>
+        <field name="value"> </field>
+    </record>
+</odoo>

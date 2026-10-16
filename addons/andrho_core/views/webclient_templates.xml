@@ -1,0 +1,21 @@
+<odoo>
+    <!-- Title, favicon and fonts of every page: AndRho, not Odoo. -->
+    <template id="layout" inherit_id="web.layout" name="AndRho layout">
+        <xpath expr="//title" position="replace">
+            <title t-esc="title or 'AndRho ERP'"/>
+        </xpath>
+        <xpath expr="//link[@rel='shortcut icon']" position="replace">
+            <link type="image/png" rel="shortcut icon" href="/andrho_core/static/src/img/andrho-mark.png"/>
+        </xpath>
+        <xpath expr="//head" position="inside">
+            <link rel="preconnect" href="https://fonts.googleapis.com"/>
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap"/>
+        </xpath>
+    </template>
+
+    <!-- No "Powered by Odoo". -->
+    <template id="brand_promotion_message" inherit_id="web.brand_promotion_message" name="AndRho: no Odoo promotion">
+        <xpath expr="//t[@t-out]" position="replace"/>
+    </template>
+</odoo>

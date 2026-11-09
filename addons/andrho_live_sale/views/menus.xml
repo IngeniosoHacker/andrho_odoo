@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="menu_live_root" name="Venta en vivo" sequence="5" web_icon="andrho_live_sale,static/description/icon.png"/>
+    <menuitem id="menu_live_root" name="Venta en vivo" sequence="5" web_icon="andrho_live_sale,static/description/icon.png" groups="group_live_sale"/>
     <menuitem id="menu_live_sales" name="Lives" parent="menu_live_root" action="action_live_sale" sequence="10"/>
     <menuitem id="menu_live_cards" name="Tarjetas de envío" parent="menu_live_root" action="action_live_card" sequence="20"/>
     <menuitem id="menu_live_buyers" name="Compradores" parent="menu_live_root" action="action_live_buyer" sequence="30"/>

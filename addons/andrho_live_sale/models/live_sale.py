@@ -71,6 +71,21 @@ class LiveSale(models.Model):
     # -- called by andrho-api ---------------------------------------------
 
     @api.model
+    def andrho_set_enabled(self, enabled):
+        """Shows or hides live sales for everyone in this ERP. AndRho turns
+        it on when the plan includes it and the business uses it, and off
+        when it doesn't (a downgrade, or the owner turns it off)."""
+        group = self.env.ref("andrho_live_sale.group_live_sale")
+        internal = self.env.ref("base.group_user")
+        if enabled:
+            internal.sudo().write({"implied_ids": [(4, group.id)]})
+        else:
+            internal.sudo().write({"implied_ids": [(3, group.id)]})
+            group.sudo().write({"user_ids": [(5, 0, 0)]})
+        self.env["ir.config_parameter"].sudo().set_param("andrho.live.enabled", "1" if enabled else "0")
+        return True
+
+    @api.model
     def andrho_create(self, name, items, channel="facebook"):
         """A live with items [{product_id, price}] in the given order."""
         if not items:

@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_andrho_live_sale_user,andrho.live.sale user,model_andrho_live_sale,base.group_user,1,1,1,1
-access_andrho_live_sale_line_user,andrho.live.sale.line user,model_andrho_live_sale_line,base.group_user,1,1,1,1
-access_andrho_live_card_user,andrho.live.card user,model_andrho_live_card,base.group_user,1,1,1,1
-access_andrho_live_buyer_user,andrho.live.buyer user,model_andrho_live_buyer,base.group_user,1,1,1,0
+access_andrho_live_sale_user,andrho.live.sale user,model_andrho_live_sale,group_live_sale,1,1,1,1
+access_andrho_live_sale_line_user,andrho.live.sale.line user,model_andrho_live_sale_line,group_live_sale,1,1,1,1
+access_andrho_live_card_user,andrho.live.card user,model_andrho_live_card,group_live_sale,1,1,1,1
+access_andrho_live_buyer_user,andrho.live.buyer user,model_andrho_live_buyer,group_live_sale,1,1,1,0

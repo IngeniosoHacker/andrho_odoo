@@ -10,6 +10,7 @@
     # operational side: items, reservations in stock, shipping cards.
     "depends": ["stock", "andrho_core"],
     "data": [
+        "security/live_sale_groups.xml",
         "security/ir.model.access.csv",
         "data/ir_config_parameter.xml",
         "report/paperformat.xml",
@@ -19,6 +20,9 @@
         "views/live_buyer_views.xml",
         "views/menus.xml",
     ],
+    # Installed only when the seller turns live sales on in AndRho: it
+    # starts enabled (post_init_hook).
+    "post_init_hook": "post_init_hook",
     "installable": True,
     "application": True,
     "auto_install": False,

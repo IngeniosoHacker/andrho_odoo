@@ -32,7 +32,10 @@ operativo:
 | `andrho.live.buyer` | El comprador (por su id en la Página): compras, total y cliente frecuente (lealtad, `andrho.live.loyalty_*`). |
 
 No se instala al crear el ERP: el vendedor lo activa desde AndRho (POST
-/live/setup). Al entregar una tarjeta no se manda SMS (`skip_sms`): a los
+/live/setup). Menú y modelos pertenecen al grupo `group_live_sale`, que
+AndRho da a todos los usuarios internos mientras la cuenta tiene la venta
+en vivo activada y quita al apagarla (`andrho_set_enabled`). La palabra
+para pedir en las publicaciones es `andrho.live.claim_word` ("mío"). Al entregar una tarjeta no se manda SMS (`skip_sms`): a los
 compradores solo se les escribe por el Messenger del vendedor.
 
 `andrho_core` acepta `next` en el token de entrada: el buscador del panel

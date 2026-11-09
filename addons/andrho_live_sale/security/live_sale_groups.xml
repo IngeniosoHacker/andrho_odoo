@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Who sees "Venta en vivo": every internal user while the account has
+         it on (AndRho implies it from base.group_user, see
+         andrho.live.sale.andrho_set_enabled), nobody when it's off: an
+         account that didn't buy it or doesn't need it never sees the menu. -->
+    <record id="group_live_sale" model="res.groups">
+        <field name="name">Venta en vivo</field>
+        <field name="comment">La activa AndRho según el plan y el tipo de negocio.</field>
+    </record>
+</odoo>

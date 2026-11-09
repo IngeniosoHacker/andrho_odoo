@@ -10,6 +10,11 @@
         <field name="key">andrho.live.card_show_logo</field>
         <field name="value">1</field>
     </record>
+    <!-- The word buyers comment on the unsold-item posts to take one. -->
+    <record id="param_claim_word" model="ir.config_parameter">
+        <field name="key">andrho.live.claim_word</field>
+        <field name="value">mío</field>
+    </record>
     <record id="param_loyalty_enabled" model="ir.config_parameter">
         <field name="key">andrho.live.loyalty_enabled</field>
         <field name="value">0</field>

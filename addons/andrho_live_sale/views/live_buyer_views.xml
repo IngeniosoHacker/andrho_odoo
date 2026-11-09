@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_live_buyer_list" model="ir.ui.view">
+        <field name="name">andrho.live.buyer.list</field>
+        <field name="model">andrho.live.buyer</field>
+        <field name="arch" type="xml">
+            <list string="Compradores">
+                <field name="name"/>
+                <field name="channel"/>
+                <field name="phone"/>
+                <field name="zone"/>
+                <field name="purchase_count"/>
+                <field name="total_spent" sum="Total"/>
+                <field name="last_purchase"/>
+                <field name="frequent" widget="boolean"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_live_buyer_form" model="ir.ui.view">
+        <field name="name">andrho.live.buyer.form</field>
+        <field name="model">andrho.live.buyer</field>
+        <field name="arch" type="xml">
+            <form string="Comprador">
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="phone"/>
+                            <field name="address"/>
+                            <field name="zone"/>
+                            <field name="channel"/>
+                        </group>
+                        <group>
+                            <field name="purchase_count"/>
+                            <field name="total_spent"/>
+                            <field name="last_purchase"/>
+                            <field name="frequent"/>
+                        </group>
+                    </group>
+                    <field name="card_ids" readonly="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_live_buyer" model="ir.actions.act_window">
+        <field name="name">Compradores</field>
+        <field name="res_model">andrho.live.buyer</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

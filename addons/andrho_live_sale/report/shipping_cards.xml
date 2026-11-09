@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_shipping_cards" model="ir.actions.report">
+        <field name="name">Tarjetas de envío</field>
+        <field name="model">andrho.live.card</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">andrho_live_sale.report_shipping_cards</field>
+        <field name="report_file">andrho_live_sale.report_shipping_cards</field>
+        <field name="print_report_name">'Tarjetas de envío'</field>
+        <field name="paperformat_id" ref="paperformat_shipping_cards"/>
+        <field name="binding_model_id" ref="model_andrho_live_card"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Four 10 x 10 cm cards per page (2 x 2), dashed borders to cut. -->
+    <template id="report_shipping_cards">
+        <t t-call="web.html_container">
+            <t t-set="company" t-value="docs[:1].env.company"/>
+            <t t-foreach="[docs[i:i + 4] for i in range(0, len(docs), 4)]" t-as="page">
+                <div class="page" style="page-break-after: always;">
+                    <table style="border-collapse: separate; border-spacing: 4mm;">
+                        <t t-foreach="[page[j:j + 2] for j in range(0, len(page), 2)]" t-as="row">
+                            <tr>
+                                <t t-foreach="row" t-as="card">
+                                    <td style="width: 100mm; height: 100mm; border: 1px dashed #888; padding: 5mm; vertical-align: top; font-family: Helvetica, Arial, sans-serif;">
+                                        <div t-if="card.show_logo and company.logo" style="text-align: center; height: 18mm;">
+                                            <img t-att-src="image_data_uri(company.logo)" style="max-height: 18mm; max-width: 60mm;"/>
+                                        </div>
+                                        <div t-else="" style="text-align: center; font-weight: bold; font-size: 14pt; height: 10mm;" t-esc="company.name"/>
+                                        <p style="text-align: center; font-size: 13pt; font-weight: bold; margin: 3mm 0;" t-esc="card.message"/>
+                                        <p style="font-size: 11pt; margin: 0;"><strong t-esc="card.buyer_name"/></p>
+                                        <p style="font-size: 10pt; margin: 0;" t-if="card.phone">Tel. <span t-esc="card.phone"/></p>
+                                        <p style="font-size: 10pt; margin: 0;" t-if="card.address"><span t-esc="card.address"/><t t-if="card.zone">, <span t-esc="card.zone"/></t></p>
+                                        <p style="font-size: 9pt; margin: 0; color: #555;" t-if="card.notes" t-esc="card.notes"/>
+                                        <table style="width: 100%; font-size: 9pt; margin-top: 3mm; border-top: 1px solid #ccc;">
+                                            <tr t-foreach="card.line_ids[:6]" t-as="line">
+                                                <td t-esc="line.live_name"/>
+                                                <td style="text-align: right;">Q<span t-esc="'%.2f' % line.price"/></td>
+                                            </tr>
+                                            <tr t-if="len(card.line_ids) &gt; 6"><td colspan="2">y <t t-esc="len(card.line_ids) - 6"/> más</td></tr>
+                                            <tr t-if="card.discount_pct">
+                                                <td>Cliente frecuente</td>
+                                                <td style="text-align: right;">-<t t-esc="'%g' % card.discount_pct"/>%</td>
+                                            </tr>
+                                            <tr style="font-weight: bold;">
+                                                <td>Total</td>
+                                                <td style="text-align: right;">Q<span t-esc="'%.2f' % card.total"/></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </t>
+                            </tr>
+                        </t>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

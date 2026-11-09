@@ -18,6 +18,26 @@ docker build -t andrho-odoo:19.0 .
 | **Marca AndRho**: barra tinta con la línea menta, acciones en teal, Inter y Space Grotesk, el logo de AndRho en el menú de apps, título "AndRho ERP", sin "Powered by Odoo" ni enlaces a odoo.com, y "Volver a AndRho" en el menú del usuario. | `static/src/scss/*`, `static/src/js/webclient_cleanup.js`, `views/webclient_templates.xml` |
 | **`mail` neutralizado** (sección 3): ningún correo sale (`ir.mail_server.send_email`), crons de correo, *publisher warranty* y digest apagados, Discuss oculto, chatter y actividades ocultos. El tracking se conserva. | `hooks.py`, `models/ir_mail_server.py` |
 
+### `andrho_live_sale` (`addons/andrho_live_sale`): venta en vivo
+
+Lives de Facebook e Instagram (founder/live-sale-spec.md). andrho-api habla
+con Meta y llama a los métodos `andrho_*` por JSON-RPC; aquí vive lo
+operativo:
+
+| Modelo | Qué es |
+|---|---|
+| `andrho.live.sale` | Un live: estado (Preparando → Organizado → En vivo → Terminado), enlace, números. Su lista es el **historial de lives**. |
+| `andrho.live.sale.line` | Un artículo del live con su nombre corto ("blusa roja 2"), precio y estado (disponible, apartado, confirmado, sin vender, publicado). |
+| `andrho.live.card` | La tarjeta de envío de un comprador: sus artículos, teléfono, dirección, descuento y la **reserva en inventario** (transferencia de salida reservada). Reporte PDF: 4 tarjetas de 10 × 10 cm por hoja carta. |
+| `andrho.live.buyer` | El comprador (por su id en la Página): compras, total y cliente frecuente (lealtad, `andrho.live.loyalty_*`). |
+
+No se instala al crear el ERP: el vendedor lo activa desde AndRho (POST
+/live/setup). Al entregar una tarjeta no se manda SMS (`skip_sms`): a los
+compradores solo se les escribe por el Messenger del vendedor.
+
+`andrho_core` acepta `next` en el token de entrada: el buscador del panel
+abre el ERP en esa pantalla (solo rutas `/odoo…` o `/report/…`).
+
 El script de la VPS crea la base de datos, el administrador (el correo y nombre
 del dueño en AndRho, así que no hay paso de "crear la cuenta" en el navegador),
 la empresa, `andrho.sso_secret` y `andrho.dashboard_url`, y desinstala

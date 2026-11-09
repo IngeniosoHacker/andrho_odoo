@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_live_card_kanban" model="ir.ui.view">
+        <field name="name">andrho.live.card.kanban</field>
+        <field name="model">andrho.live.card</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column">
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <field name="buyer_name" class="fw-bold"/>
+                        <field name="live_id" class="text-muted small"/>
+                        <div><field name="phone"/></div>
+                        <div><field name="address"/> <field name="zone"/></div>
+                        <div class="d-flex justify-content-between">
+                            <span><field name="item_count"/> artículo(s)</span>
+                            <span class="fw-bold">Q<field name="total"/></span>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_live_card_list" model="ir.ui.view">
+        <field name="name">andrho.live.card.list</field>
+        <field name="model">andrho.live.card</field>
+        <field name="arch" type="xml">
+            <list string="Tarjetas de envío">
+                <header>
+                    <button name="action_print_cards" type="object" string="Imprimir tarjetas"/>
+                    <button name="action_delivered" type="object" string="Marcar entregadas"/>
+                </header>
+                <field name="create_date" string="Fecha"/>
+                <field name="buyer_id"/>
+                <field name="live_id"/>
+                <field name="phone"/>
+                <field name="address"/>
+                <field name="zone"/>
+                <field name="item_count"/>
+                <field name="total"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_live_card_form" model="ir.ui.view">
+        <field name="name">andrho.live.card.form</field>
+        <field name="model">andrho.live.card</field>
+        <field name="arch" type="xml">
+            <form string="Tarjeta de envío">
+                <header>
+                    <button name="action_print_cards" type="object" string="Imprimir" class="btn-primary"/>
+                    <button name="action_delivered" type="object" string="Entregada" invisible="state == 'delivered'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <h1><field name="buyer_id"/></h1>
+                    <group>
+                        <group>
+                            <field name="phone"/>
+                            <field name="address"/>
+                            <field name="zone"/>
+                            <field name="notes"/>
+                        </group>
+                        <group>
+                            <field name="live_id"/>
+                            <field name="discount_pct"/>
+                            <field name="subtotal"/>
+                            <field name="total"/>
+                            <field name="picking_id"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <list create="0" delete="0">
+                            <field name="live_name"/>
+                            <field name="product_id"/>
+                            <field name="price"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_live_card" model="ir.actions.act_window">
+        <field name="name">Tarjetas de envío</field>
+        <field name="res_model">andrho.live.card</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aquí aparecen tus pedidos confirmados</p>
+            <p>Cuando un comprador confirma por Messenger, AndRho crea su tarjeta con sus datos de envío.</p>
+        </field>
+    </record>
+</odoo>

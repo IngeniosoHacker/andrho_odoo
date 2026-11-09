@@ -32,7 +32,17 @@ class AndrhoSso(http.Controller):
             _logger.info("andrho_core: rejected SSO token")
             back = _dashboard_url()
             return request.redirect(back, local=False) if back else request.not_found()
-        return request.redirect(HOME)
+        return request.redirect(_safe_next(data.get("next")) or HOME)
+
+
+def _safe_next(path):
+    """Where the dashboard asked to land (its search bar opens a module):
+    only a path inside this ERP, never another site."""
+    if not isinstance(path, str) or not path.startswith("/") or path.startswith("//") or "\\" in path:
+        return None
+    if not (path.startswith("/odoo") or path.startswith("/report/")):
+        return None
+    return path
 
 
 class AndrhoHome(Home):

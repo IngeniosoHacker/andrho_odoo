@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Defaults the seller changes from AndRho (Venta en vivo > Tarjetas and
+     Lealtad); noupdate so an upgrade never overwrites their choice. -->
+<odoo noupdate="1">
+    <record id="param_card_message" model="ir.config_parameter">
+        <field name="key">andrho.live.card_message</field>
+        <field name="value">¡Gracias por tu compra, {nombre}!</field>
+    </record>
+    <record id="param_card_show_logo" model="ir.config_parameter">
+        <field name="key">andrho.live.card_show_logo</field>
+        <field name="value">1</field>
+    </record>
+    <record id="param_loyalty_enabled" model="ir.config_parameter">
+        <field name="key">andrho.live.loyalty_enabled</field>
+        <field name="value">0</field>
+    </record>
+    <record id="param_loyalty_min" model="ir.config_parameter">
+        <field name="key">andrho.live.loyalty_min_purchases</field>
+        <field name="value">3</field>
+    </record>
+    <record id="param_loyalty_discount" model="ir.config_parameter">
+        <field name="key">andrho.live.loyalty_discount</field>
+        <field name="value">10</field>
+    </record>
+</odoo>

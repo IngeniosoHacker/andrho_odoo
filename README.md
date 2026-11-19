@@ -42,7 +42,13 @@ el live no está disponible en la API de Meta. `andrho_link_psid` une el id de
 comentarios con el de Messenger; `andrho_set_reach` guarda en el contacto el
 medio preferido, el WhatsApp (solo si la persona escribió) y la fecha y canal
 del aviso de datos. `andrho_people(live)` y `andrho_contacts()` alimentan el
-panel. La migración `19.0.1.1.0` mueve el `psid` viejo (que era el id de
+panel. **Para llevarlo a los clientes que ya existen** no basta reiniciar el
+contenedor: `andrho_core` 19.0.1.1.0 agrega campos a `res.partner` y la base
+debe actualizarse (`-u`) antes de arrancar con la imagen nueva. Lo hace
+`VPS/odoo/upgrade-client.sh` (ver `VPS/README.md`). andrho-api además corre
+`UpgradeStale` al abrir En vivo, pero eso no sustituye el paso del VPS.
+
+La migración `19.0.1.1.0` mueve el `psid` viejo (que era el id de
 comentarios) a `commenter_id`.
 
 No se instala al crear el ERP: el vendedor lo activa desde AndRho (POST

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_andrho" model="ir.ui.view">
+        <field name="name">res.partner.form.andrho</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Contacto (AndRho)" name="andrho_reach">
+                    <group>
+                        <group>
+                            <field name="andrho_preferred_channel"/>
+                            <field name="andrho_whatsapp"/>
+                        </group>
+                        <group>
+                            <field name="andrho_consent_at"/>
+                            <field name="andrho_consent_channel"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

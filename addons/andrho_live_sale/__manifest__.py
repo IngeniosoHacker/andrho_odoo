@@ -1,7 +1,7 @@
 {
     "name": "AndRho Venta en vivo",
     "summary": "Lives de Facebook e Instagram: orden de venta, apartados, confirmaciones, tarjetas de envío y clientes frecuentes",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "license": "LGPL-3",
     "author": "AndRho",
     "category": "Sales",

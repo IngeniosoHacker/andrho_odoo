@@ -16,6 +16,7 @@ docker build -t andrho-odoo:19.0 .
 | **Entrada sin login** desde el botón ERP del panel: `/andrho/sso?t=<token>` valida un token firmado por andrho-api (HMAC-SHA256 con `andrho.sso_secret`, 60 s, un solo uso), crea al usuario de AndRho si es su primera vez (dueño y admins con los permisos del administrador; el resto, usuario de inventario) y abre la sesión. | `models/sso.py`, `models/res_users.py`, `controllers/main.py` |
 | `/web/login` y el cierre de sesión llevan de vuelta al panel de AndRho (`andrho.dashboard_url`). `?local=1` deja el formulario de Odoo para soporte. | `controllers/main.py` |
 | **Marca AndRho**: barra tinta con la línea menta, acciones en teal, Inter y Space Grotesk, el logo de AndRho en el menú de apps, título "AndRho ERP", sin "Powered by Odoo" ni enlaces a odoo.com, y "Volver a AndRho" en el menú del usuario. | `static/src/scss/*`, `static/src/js/webclient_cleanup.js`, `views/webclient_templates.xml` |
+| **Cómo contactar a cada contacto**: en `res.partner`, medio preferido (Messenger o WhatsApp), WhatsApp (solo si la persona escribió), fecha y canal del aviso de datos (`andrho_set_reach`), y las etiquetas "Cliente" y "Prospecto". | `models/res_partner.py`, `data/partner_tags.xml` |
 | **`mail` neutralizado** (sección 3): ningún correo sale (`ir.mail_server.send_email`), crons de correo, *publisher warranty* y digest apagados, Discuss oculto, chatter y actividades ocultos. El tracking se conserva. | `hooks.py`, `models/ir_mail_server.py` |
 
 ### `andrho_live_sale` (`addons/andrho_live_sale`): venta en vivo
@@ -29,7 +30,20 @@ operativo:
 | `andrho.live.sale` | Un live: estado (Preparando → Organizado → En vivo → Terminado), enlace, números. Su lista es el **historial de lives**. |
 | `andrho.live.sale.line` | Un artículo del live con su nombre corto ("blusa roja 2"), precio y estado (disponible, apartado, confirmado, sin vender, publicado). |
 | `andrho.live.card` | La tarjeta de envío de un comprador: sus artículos, teléfono, dirección, descuento y la **reserva en inventario** (transferencia de salida reservada). Reporte PDF: 4 tarjetas de 10 × 10 cm por hoja carta. |
-| `andrho.live.buyer` | El comprador (por su id en la Página): compras, total y cliente frecuente (lealtad, `andrho.live.loyalty_*`). |
+| `andrho.live.buyer` | Cliente o prospecto del live (`kind`). Guarda por separado el id de sus comentarios (`commenter_id`) y su id de Messenger (`psid`), sus lives, cómo llegó y cuándo pasó a cliente; compras, total y cliente frecuente (lealtad, `andrho.live.loyalty_*`). |
+
+**CRM desde los lives (19.0.1.1.0):** un comentario que coincide con un
+artículo crea o actualiza el contacto con la etiqueta **Cliente**, ligado a
+la línea (`partner_id`) y al live (`andrho_reserve` → `andrho_find_or_create`).
+Quien comenta sin coincidir, le escribe a la Página o reacciona (solo con
+`andrho.live.capture_reactions` = 1) queda como **Prospecto**
+(`andrho_touch_prospects`), solo con nombre e ids que da Meta. Quien solo mira
+el live no está disponible en la API de Meta. `andrho_link_psid` une el id de
+comentarios con el de Messenger; `andrho_set_reach` guarda en el contacto el
+medio preferido, el WhatsApp (solo si la persona escribió) y la fecha y canal
+del aviso de datos. `andrho_people(live)` y `andrho_contacts()` alimentan el
+panel. La migración `19.0.1.1.0` mueve el `psid` viejo (que era el id de
+comentarios) a `commenter_id`.
 
 No se instala al crear el ERP: el vendedor lo activa desde AndRho (POST
 /live/setup). Menú y modelos pertenecen al grupo `group_live_sale`, que

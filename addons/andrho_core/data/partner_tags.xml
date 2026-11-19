@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tags AndRho puts on contacts: whoever bought (or took an item in a
+     live) is "Cliente"; whoever only interacted is "Prospecto". -->
+<odoo noupdate="1">
+    <record id="tag_customer" model="res.partner.category">
+        <field name="name">Cliente</field>
+    </record>
+    <record id="tag_prospect" model="res.partner.category">
+        <field name="name">Prospecto</field>
+    </record>
+</odoo>

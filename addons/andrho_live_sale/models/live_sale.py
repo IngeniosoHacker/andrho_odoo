@@ -192,6 +192,7 @@ class LiveSaleLine(models.Model):
             "id": self.id, "sequence": self.sequence, "product_id": self.product_id.id,
             "product": self.product_id.display_name, "live_name": self.live_name, "price": self.price,
             "state": self.state, "buyer": self.buyer_id.name or "", "buyer_psid": self.buyer_id.psid or "",
+            "buyer_id": self.buyer_id.id or 0,
             "card_id": self.card_id.id or False, "post_id": self.post_id or "",
             "comment_id": self.comment_id or "",
         }

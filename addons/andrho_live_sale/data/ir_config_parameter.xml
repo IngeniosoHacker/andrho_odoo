@@ -27,4 +27,15 @@
         <field name="key">andrho.live.loyalty_discount</field>
         <field name="value">10</field>
     </record>
+    <!-- Reactions to a live count as prospects only if the seller says so
+         (they can't be written to; the weakest signal). -->
+    <record id="param_capture_reactions" model="ir.config_parameter">
+        <field name="key">andrho.live.capture_reactions</field>
+        <field name="value">0</field>
+    </record>
+    <!-- The store's privacy notice, linked in the confirmation. -->
+    <record id="param_privacy_url" model="ir.config_parameter">
+        <field name="key">andrho.live.privacy_url</field>
+        <field name="value"></field>
+    </record>
 </odoo>

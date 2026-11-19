@@ -1,7 +1,7 @@
 {
     "name": "AndRho Core",
     "summary": "Odoo como el ERP de AndRho: entrada desde el panel, marca AndRho y sin canales propios de Odoo",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "license": "LGPL-3",
     "author": "AndRho",
     "category": "Hidden",
@@ -11,7 +11,9 @@
     "data": [
         "security/ir.model.access.csv",
         "data/ir_config_parameter.xml",
+        "data/partner_tags.xml",
         "views/webclient_templates.xml",
+        "views/res_partner_views.xml",
     ],
     "assets": {
         # Before web's own variables: they are all !default.

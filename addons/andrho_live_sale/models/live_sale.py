@@ -175,6 +175,7 @@ class LiveSaleLine(models.Model):
     price = fields.Float("Precio", required=True)
     state = fields.Selection(STATES, default="available", required=True, index=True)
     buyer_id = fields.Many2one("andrho.live.buyer", "Comprador", ondelete="set null")
+    partner_id = fields.Many2one(related="buyer_id.partner_id", string="Contacto")
     card_id = fields.Many2one("andrho.live.card", "Tarjeta de envío", ondelete="set null")
     comment_id = fields.Char("Comentario (Meta)")
     comment_text = fields.Char("Comentario")
@@ -191,6 +192,7 @@ class LiveSaleLine(models.Model):
             "id": self.id, "sequence": self.sequence, "product_id": self.product_id.id,
             "product": self.product_id.display_name, "live_name": self.live_name, "price": self.price,
             "state": self.state, "buyer": self.buyer_id.name or "", "buyer_psid": self.buyer_id.psid or "",
+            "buyer_id": self.buyer_id.id or 0,
             "card_id": self.card_id.id or False, "post_id": self.post_id or "",
             "comment_id": self.comment_id or "",
         }
@@ -199,12 +201,15 @@ class LiveSaleLine(models.Model):
     def andrho_lines(self, line_ids):
         return [l._andrho_dict() for l in self.browse(line_ids).exists()]
 
-    def andrho_reserve(self, psid, buyer_name, page_id, comment_id=None, comment_text=None, channel="facebook"):
-        """The first commenter takes it. False if it's no longer available."""
+    def andrho_reserve(self, commenter_id, buyer_name, page_id, comment_id=None, comment_text=None, channel="facebook"):
+        """The first commenter takes it. False if it's no longer available.
+        A matching comment makes its author a customer (tag "Cliente"),
+        linked to this line and its live."""
         self.ensure_one()
         if self.state not in ("available", "posted"):
             return False
-        buyer_id = self.env["andrho.live.buyer"].andrho_find_or_create(psid, buyer_name, page_id, channel)
+        buyer_id = self.env["andrho.live.buyer"].andrho_find_or_create(
+            commenter_id, buyer_name, page_id, channel, self.live_id.id or None)
         self.write({
             "state": "reserved", "buyer_id": buyer_id, "comment_id": comment_id or False,
             "comment_text": comment_text or False, "claimed_at": fields.Datetime.now(),

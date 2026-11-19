@@ -4,16 +4,40 @@
         <field name="name">andrho.live.buyer.list</field>
         <field name="model">andrho.live.buyer</field>
         <field name="arch" type="xml">
-            <list string="Compradores">
+            <list string="Clientes y prospectos">
                 <field name="name"/>
-                <field name="channel"/>
-                <field name="phone"/>
-                <field name="zone"/>
+                <field name="kind" widget="badge" decoration-success="kind == 'customer'" decoration-info="kind == 'prospect'"/>
+                <field name="source" optional="show"/>
+                <field name="preferred_channel"/>
+                <field name="phone" optional="hide"/>
+                <field name="zone" optional="hide"/>
                 <field name="purchase_count"/>
                 <field name="total_spent" sum="Total"/>
-                <field name="last_purchase"/>
+                <field name="last_purchase" optional="show"/>
+                <field name="converted_at" optional="hide"/>
                 <field name="frequent" widget="boolean"/>
             </list>
+        </field>
+    </record>
+
+    <record id="view_live_buyer_search" model="ir.ui.view">
+        <field name="name">andrho.live.buyer.search</field>
+        <field name="model">andrho.live.buyer</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="live_ids"/>
+                <filter name="customers" string="Clientes" domain="[('kind', '=', 'customer')]"/>
+                <filter name="prospects" string="Prospectos" domain="[('kind', '=', 'prospect')]"/>
+                <filter name="converted" string="Pasaron a cliente" domain="[('converted_at', '!=', False)]"/>
+                <separator/>
+                <filter name="by_whatsapp" string="Prefieren WhatsApp" domain="[('preferred_channel', '=', 'whatsapp')]"/>
+                <filter name="by_messenger" string="Prefieren Messenger" domain="[('preferred_channel', '=', 'messenger')]"/>
+                <group>
+                    <filter name="group_kind" string="Tipo" context="{'group_by': 'kind'}"/>
+                    <filter name="group_channel" string="Medio preferido" context="{'group_by': 'preferred_channel'}"/>
+                </group>
+            </search>
         </field>
     </record>
 
@@ -21,32 +45,58 @@
         <field name="name">andrho.live.buyer.form</field>
         <field name="model">andrho.live.buyer</field>
         <field name="arch" type="xml">
-            <form string="Comprador">
+            <form string="Cliente o prospecto">
                 <sheet>
                     <h1><field name="name"/></h1>
                     <group>
                         <group>
+                            <field name="kind"/>
+                            <field name="source"/>
+                            <field name="partner_id"/>
                             <field name="phone"/>
                             <field name="address"/>
                             <field name="zone"/>
                             <field name="channel"/>
                         </group>
                         <group>
+                            <field name="preferred_channel"/>
+                            <field name="wa_phone"/>
+                            <field name="consent_at"/>
+                            <field name="consent_channel"/>
                             <field name="purchase_count"/>
                             <field name="total_spent"/>
                             <field name="last_purchase"/>
+                            <field name="converted_at"/>
                             <field name="frequent"/>
                         </group>
                     </group>
-                    <field name="card_ids" readonly="1"/>
+                    <notebook>
+                        <page string="Artículos" name="lines">
+                            <field name="line_ids" readonly="1">
+                                <list>
+                                    <field name="live_id"/>
+                                    <field name="live_name"/>
+                                    <field name="price"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Lives" name="lives">
+                            <field name="live_ids" readonly="1"/>
+                        </page>
+                        <page string="Tarjetas" name="cards">
+                            <field name="card_ids" readonly="1"/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
     </record>
 
     <record id="action_live_buyer" model="ir.actions.act_window">
-        <field name="name">Compradores</field>
+        <field name="name">Clientes y prospectos</field>
         <field name="res_model">andrho.live.buyer</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_live_buyer_search"/>
     </record>
 </odoo>

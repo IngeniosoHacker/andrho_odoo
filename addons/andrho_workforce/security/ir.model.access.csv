@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_andrho_crew_user,andrho.crew user,model_andrho_crew,hr.group_hr_user,1,1,1,1
+access_andrho_crew_report_user,andrho.crew.report user,model_andrho_crew_report,hr.group_hr_user,1,0,1,0

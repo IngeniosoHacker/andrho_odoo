@@ -38,6 +38,23 @@ en vivo activada y quita al apagarla (`andrho_set_enabled`). La palabra
 para pedir en las publicaciones es `andrho.live.claim_word` ("mío"). Al entregar una tarjeta no se manda SMS (`skip_sms`): a los
 compradores solo se les escribe por el Messenger del vendedor.
 
+### `andrho_workforce` (`addons/andrho_workforce`): personal en obra
+
+Para constructoras y sitios sin computadora: el supervisor reporta por
+WhatsApp a AndRho y aquí queda lo operativo.
+
+| Modelo | Qué es |
+|---|---|
+| `hr.work.location` | Cada obra de AndRho (`andrho_site_ref`, `andrho_sync_site`). Las obras van aparte de las sucursales. |
+| `hr.employee` | El trabajador con su código interno (`andrho_code`), su obra, quién lo dio de alta y cuándo. `andrho_find`, `andrho_upsert`, `andrho_terminate`. |
+| `andrho.crew` | La cuadrilla: integrantes, dónde trabaja dentro de la obra, actividad, quién reportó y cuándo, con su historial (`andrho.crew.report`). `andrho_report`, `andrho_overview`. |
+
+**Las fotos son datos personales:** solo viven en este ERP (`image_1920`). Al
+dar de baja al trabajador (archivarlo, `andrho_terminate` o el asistente de
+salida) se borran del empleado y de su contacto de trabajo. `andrho_photo`
+dice si tiene la foto del supervisor (no el avatar que Odoo genera). No se
+instala al crear el ERP: AndRho lo instala al activar Personal en obra.
+
 `andrho_core` acepta `next` en el token de entrada: el buscador del panel
 abre el ERP en esa pantalla (solo rutas `/odoo…` o `/report/…`).
 

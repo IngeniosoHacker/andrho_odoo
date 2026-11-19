@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_form_andrho" model="ir.ui.view">
+        <field name="name">hr.employee.form.andrho</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Obra (AndRho)" name="andrho_site">
+                    <group>
+                        <group>
+                            <field name="andrho_code"/>
+                            <field name="andrho_crew_ids" widget="many2many_tags" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="andrho_reported_by"/>
+                            <field name="andrho_reported_at"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

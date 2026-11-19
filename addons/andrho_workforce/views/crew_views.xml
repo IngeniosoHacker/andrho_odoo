@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_crew_list" model="ir.ui.view">
+        <field name="name">andrho.crew.list</field>
+        <field name="model">andrho.crew</field>
+        <field name="arch" type="xml">
+            <list string="Cuadrillas">
+                <field name="work_location_id"/>
+                <field name="name"/>
+                <field name="member_ids" widget="many2many_tags"/>
+                <field name="zone"/>
+                <field name="activity"/>
+                <field name="reported_by"/>
+                <field name="reported_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_crew_form" model="ir.ui.view">
+        <field name="name">andrho.crew.form</field>
+        <field name="model">andrho.crew</field>
+        <field name="arch" type="xml">
+            <form string="Cuadrilla">
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="work_location_id"/>
+                            <field name="zone"/>
+                            <field name="activity"/>
+                        </group>
+                        <group>
+                            <field name="reported_by"/>
+                            <field name="reported_at"/>
+                        </group>
+                    </group>
+                    <field name="member_ids" widget="many2many_tags"/>
+                    <field name="report_ids" readonly="1">
+                        <list>
+                            <field name="reported_at"/>
+                            <field name="reported_by"/>
+                            <field name="members"/>
+                            <field name="zone"/>
+                            <field name="activity"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_crew_search" model="ir.ui.view">
+        <field name="name">andrho.crew.search</field>
+        <field name="model">andrho.crew</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="work_location_id"/>
+                <field name="member_ids"/>
+                <group>
+                    <filter name="by_site" string="Obra" context="{'group_by': 'work_location_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_crew" model="ir.actions.act_window">
+        <field name="name">Cuadrillas</field>
+        <field name="res_model">andrho.crew</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_by_site': 1}</field>
+    </record>
+
+    <menuitem id="menu_crews" name="Cuadrillas" parent="hr.menu_hr_root" action="action_crew" sequence="4"
+              groups="hr.group_hr_user"/>
+</odoo>
